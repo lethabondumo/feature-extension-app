@@ -1,0 +1,248 @@
+
+// import React, { useState } from "react";
+
+// function CleanerForm() {
+//   const [formData, setFormData] = useState({
+//     firstname: "",
+//     lastname: "",
+//     email: "",
+//     building_type: "",
+//     phone_country: "",
+//     phone_number: "",
+//     street_number: "",
+//     street_name: "",
+//     apartment_building_name: "", 
+//     apartment_number: "",
+//     complex_name: "",
+//     unit_number: "",
+//     other_address_description: "",
+//     area: "",
+//     hourly_rate: "",
+//   });
+
+//   const handleChange = (event) => {
+//     setFormData({ ...formData, [event.target.name]: event.target.value });
+//   };
+
+//   const addCleaner = async () => {
+//     // Convert hourly rate to a number
+//     formData.hourly_rate = parseFloat(formData.hourly_rate);
+
+//     let options = {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify(formData)
+//     };
+
+//     try {
+//       const response = await fetch('http://localhost:5001/api/cleaners', options);
+//       if (response.ok) {
+//           const data = await response.json();
+//           console.log('New cleaner added:', data);
+//       } else {
+//           throw new Error('Failed to add cleaner');
+//       }
+//   } catch (error) {
+//       console.error(error);
+//   }
+// };
+
+  
+// const handleSubmit = async (event) => {
+//   event.preventDefault();
+//   const { 
+//     firstname, 
+//     lastname, 
+//     email, 
+//     phone_number, 
+//     street_number, 
+//     street_name, 
+//     area, 
+//     hourly_rate, 
+//     building_type
+//    } = formData;
+//   if (
+//     firstname && 
+//     lastname && 
+//     email && 
+//     phone_number && 
+//     street_number && 
+//     street_name && 
+//     area && 
+//     hourly_rate && 
+//     building_type) {
+//     if (phone_number.length > 25) {
+//       alert("Phone number should not exceed 25 characters.");
+//       return;
+//     }
+//     if (building_type === 'apartment' && 
+//     (!formData.apartment_building_name || !formData.apartment_number)) {
+//       alert("Please enter apartment building name and number.");
+//       return;
+//     }
+//     if (building_type === 'complex' && 
+//     (!formData.complex_name || !formData.unit_number)) {
+//       alert("Please enter complex name and unit number.");
+//       return;
+//     }
+//     // Reset form fields after submission
+//     setFormData({
+//       firstname: "",
+//       lastname: "",
+//       email: "",
+//       phone_country: "",
+//       phone_number: "",
+//       building_type: "",
+//       street_number: "",
+//       street_name: "",
+//       apartment_building_name: "",
+//       apartment_number: "",
+//       complex_name: "",
+//       unit_number: "",
+//       other_address_description: "",
+//       area: "",
+//       hourly_rate: "",
+//     });
+//     // Alert for successful submission
+//     alert("Form submitted successfully!");
+//   } else {
+//     alert("Please fill in all fields.");
+//   }
+// };
+
+
+// return (
+//   <div style={{ textAlign: "center", maxWidth: "500px", margin: "0 auto", padding: "20px" }}>
+//     <h2 style={{ marginBottom: "20px", fontFamily: "Arial, sans-serif", fontSize: "24px" }}>Add New Cleaner</h2>
+//     <form onSubmit={handleSubmit}>
+//       <label htmlFor="firstname">First Name:</label>
+//       <input type="text" name="firstname" placeholder="Enter first name here" onChange={handleChange} value={formData.firstname} style={inputStyle} />
+//       <label htmlFor="lastname">Last Name:</label>
+//       <input type="text" name="lastname" placeholder="Enter last name here" onChange={handleChange} value={formData.lastname} style={inputStyle} />
+//       <label htmlFor="email">Email Address:</label>
+//       <input type="email" name="email" placeholder="Enter valid email address here" onChange={handleChange} value={formData.email} style={inputStyle} />
+//       <label htmlFor="phone_country">Country Extension:</label>
+//       <select name="phone_country" onChange={handleChange} value={formData.phone_country} style={inputStyle}>
+//         <option value="+49">+49 0211 (Standard German local number)</option>
+//         <option value="+49">0800 (Standard German toll-free number)</option>
+//         <option value="+49">+49 032 (Standard German national number)</option>
+        
+//       </select>
+//       <label htmlFor="phone_number">Phone Number:</label>
+//       <input type="text" name="phone_number" placeholder="Enter phone number here" onChange={handleChange} value={formData.phone_number} style={inputStyle} />
+//       <label htmlFor="building_type">Building Type:</label>
+//       <select name="building_type" onChange={handleChange} value={formData.building_type} style={inputStyle}>
+//         <option value="">Select Building Type</option>
+//         <option value="home">Standalone House</option>
+//         <option value="apartment">Apartment</option>
+//         <option value="complex">Complex</option>
+//         <option value="other">Other</option>
+//       </select>
+//       {formData.building_type === "apartment" && (
+//       <>
+//         <label htmlFor="apartment_building_name">Apartment Building Name:</label>
+//         <input type="text" name="apartment_building_name" placeholder="Enter apartment building name here" onChange={handleChange} value={formData.apartment_building_name} style={inputStyle} />
+//         <label htmlFor="apartment_number">Apartment Number:</label>
+//         <input type="text" name="apartment_number" placeholder="Enter apartment number here" onChange={handleChange} value={formData.apartment_number} style={inputStyle} />
+//       </>
+//       )}
+//       {formData.building_type === "complex" && (
+//         <>
+//           <label htmlFor="complex_name">Complex Name:</label>
+//           <input type="text" name="complex_name" placeholder="Enter complex name here" onChange={handleChange} value={formData.complex_name} style={inputStyle} />
+//           <label htmlFor="unit_number">Unit Number:</label>
+//           <input type="text" name="unit_number" placeholder="Enter unit number here" onChange={handleChange} value={formData.unit_number} style={inputStyle} />
+//           </>
+//         )}
+//         {formData.building_type === "other" && (
+//           <input 
+//             type="text" 
+//             name="other_address_description" 
+//             placeholder="Give a detailed description of address here (e.g., Commercial Building, Farm etc.)" 
+//             onChange={handleChange} 
+//             value={formData.other_address_description} 
+//             style={inputStyle} 
+//           />
+//         )}
+//         <label htmlFor="street_number">Street Number:</label>
+//         <input type="text" name="street_number" placeholder="Enter street number here" onChange={handleChange} value={formData.street_number} style={inputStyle} />
+//         <label htmlFor="street_name">Street Name:</label>
+//         <input type="text" name="street_name" placeholder="Enter street name here" onChange={handleChange} value={formData.street_name} style={inputStyle} />
+//         <label htmlFor="area">Area:</label>
+//         <select name="area" onChange={handleChange} value={formData.area} style={inputStyle}>
+        //   <option value="">Select Area</option>
+        //   <option value="Bernau">Bernau</option>
+        //   <option value="Strausberg">Strausberg</option>
+        //   <option value="Fürstenwalde">Fürstenwalde</option>
+        //   <option value="Königs Wusterhausen">Königs Wusterhausen</option>
+        //   <option value="Ludwigsfelde">Ludwigsfelde</option>
+        //   <option value="Nauen">Nauen</option>
+        //   <option value="Oranienburg">Oranienburg</option>
+        //   <option value="Erkner">Erkner</option>
+        //   <option value="Neuenhagen">Neuenhagen</option>
+        //   <option value="Zossen">Zossen</option>
+        //   <option value="Teltow">Teltow</option>
+        //   <option value="Falkensee">Falkensee</option>
+        //   <option value="Hennigsdorf">Hennigsdorf</option>
+        //   <option value="Wildau and Schönefeld">Wildau and Schönefeld</option>
+        //   <option value="Werder and Beelitz">Werder and Beelitz</option>
+//         </select>
+//         <label htmlFor="hourly_rate">Hourly Rate (Euro Value):</label>
+//         <input type="number" name="hourly_rate" placeholder="Enter hourly rate rounded to two decimal places (i.e., 30.00)" onChange={handleChange} value={formData.hourly_rate} style={inputStyle} />
+//         <button type="submit" style={buttonStyle}>Submit</button>
+//       </form>
+//     </div>
+//   );
+// }
+
+// const inputStyle = {
+//   width: "100%",
+//   padding: "10px",
+//   marginBottom: "20px",
+//   borderRadius: "5px",
+//   border: "1px solid #ccc",
+//   boxSizing: "border-box",
+//   fontSize: "16px",
+// };
+
+// const buttonStyle = {
+//   width: "100%",
+//   backgroundColor: "#333",
+//   color: "#fff",
+//   padding: "10px",
+//   borderRadius: "5px",
+//   border: "none",
+//   fontSize: "16px",
+//   cursor: "pointer",
+//   transition: "background-color 0.3s",
+// };
+
+// export default CleanerForm;
+
+// // const deleteStudent = async (id) => {
+// //   let options = {
+// //     method: "DELETE",
+// //   };
+// //   try {
+// //     let response = await fetch(`/api/students/${id}`, options);
+// //     let data = await response.json();
+// //     console.log(data);
+// //     setStudents(data);
+// //   } catch (error) {
+// //     console.log(error);
+// //   }
+// // };
+
+// // const getStudentDetails = async (id) => {
+// //   try {
+// //     let response = await fetch(`/api/students/${id}`);
+// //     if (!response.ok) throw new Error("Something went wrong");
+// //     let data = await response.json();
+// //     console.log(data);
+// //     setFeaturedStudent(data[0]);
+// //   } catch (error) {
+// //     console.log(error);
+// //   }
+// // };
